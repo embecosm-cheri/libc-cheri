@@ -30,7 +30,7 @@ fn main() {
         Some(11) if libc_ci => println!("cargo:rustc-cfg=freebsd11"),
         Some(12) if libc_ci => println!("cargo:rustc-cfg=freebsd12"),
         Some(13) if libc_ci => println!("cargo:rustc-cfg=freebsd13"),
-        Some(_) | None => println!("cargo:rustc-cfg=freebsd11"),
+        Some(_) | None => println!("cargo:rustc-cfg=freebsd12"),
     }
 
     // On CI: deny all warnings
