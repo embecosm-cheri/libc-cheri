@@ -84,6 +84,18 @@ impl siginfo_t {
     }
 }
 
+s_no_extra_traits! {
+    pub union sah_u_t {
+        pub sah_id: ::sighandler_t,
+        pub sah_fn: unsafe extern "C" fn(::c_int),
+    }
+
+    pub union sa_u_t {
+        pub sa_handler : ::sah_u_t,
+        pub sa_sigaction: unsafe extern "C" fn(::c_int, *mut ::siginfo_t, *mut ::c_void),
+    }
+}
+
 s! {
     pub struct in_addr {
         pub s_addr: ::in_addr_t,
@@ -149,7 +161,7 @@ s! {
     }
 
     pub struct sigaction {
-        pub sa_sigaction: ::sighandler_t,
+        pub sa_u    : ::sa_u_t,
         pub sa_flags: ::c_int,
         pub sa_mask: sigset_t,
     }
