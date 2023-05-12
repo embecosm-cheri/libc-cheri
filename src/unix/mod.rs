@@ -18,8 +18,24 @@ pub type uintmax_t = u64;
 
 pub type size_t = usize;
 pub type ptrdiff_t = isize;
-pub type intptr_t = isize;
-pub type uintptr_t = usize;
+
+cfg_if! {
+    if #[cfg(not(bootstrap))] {
+        cfg_if! {
+            if #[cfg(target_arch = "morello+c64")] {
+                pub type intptr_t = *const u8;
+                pub type uintptr_t = *const u8;
+            } else {
+                pub type intptr_t = isize;
+                pub type uintptr_t = usize;
+            }
+        }
+    } else {
+        pub type intptr_t = isize;
+        pub type uintptr_t = usize;
+    }
+}
+
 pub type ssize_t = isize;
 
 pub type pid_t = i32;
