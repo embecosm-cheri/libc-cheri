@@ -66,11 +66,11 @@ fn main() {
     // On CI, we detect the actual FreeBSD version and match its ABI exactly,
     // running tests to ensure that the ABI is correct.
     let which_freebsd = if libc_ci {
-        which_freebsd().unwrap_or(11)
+        which_freebsd().unwrap_or(12)
     } else if rustc_dep_of_std {
         12
     } else {
-        11
+        12
     };
     match which_freebsd {
         x if x < 10 => panic!("FreeBSD older than 10 is not supported"),
