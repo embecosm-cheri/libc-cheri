@@ -66,7 +66,7 @@ fn main() {
         Some(12) if libc_ci => set_cfg("freebsd12"),
         Some(13) if libc_ci => set_cfg("freebsd13"),
         Some(14) if libc_ci => set_cfg("freebsd14"),
-        Some(_) | None => set_cfg("freebsd11"),
+        Some(_) | None => set_cfg("freebsd12"),
     }
 
     // On CI: deny all warnings
