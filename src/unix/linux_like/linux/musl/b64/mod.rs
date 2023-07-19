@@ -143,7 +143,7 @@ extern "C" {
 }
 
 cfg_if! {
-    if #[cfg(target_arch = "aarch64")] {
+    if #[cfg(any(target_arch = "aarch64", target_arch = "morello+c64"))] {
         mod aarch64;
         pub use self::aarch64::*;
     } else if #[cfg(target_arch = "mips64")] {
