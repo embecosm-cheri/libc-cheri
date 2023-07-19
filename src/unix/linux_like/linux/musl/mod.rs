@@ -122,6 +122,41 @@ cfg_if! {
     }
 }
 
+s_no_extra_traits! {
+    pub union sah_u_t {
+        pub sah_id: ::sighandler_t,
+        pub sah_fn: unsafe extern "C" fn(::c_int),
+    }
+
+    pub union sa_u_t {
+        pub sa_handler : ::sah_u_t,
+        pub sa_sigaction: unsafe extern "C" fn(::c_int, *mut ::siginfo_t, *mut ::c_void),
+    }
+}
+
+
+cfg_if! {
+    if #[cfg(target_arch = "morello+c64")] {
+        s! {
+            pub struct sigaction {
+                pub sa_u: ::sa_u_t,
+                pub sa_mask: ::sigset_t,
+                pub sa_flags: ::c_int,
+                pub sa_restorer: ::Option<extern fn()>,
+            }
+        }
+    } else {
+        s! {
+            pub struct sigaction {
+                pub sa_sigaction: ::sighandler_t,
+                pub sa_mask: ::sigset_t,
+                pub sa_flags: ::c_int,
+                pub sa_restorer: ::Option<extern fn()>,
+            }
+        }
+    }
+}
+
 s! {
     pub struct aiocb {
         pub aio_fildes: ::c_int,
@@ -141,13 +176,6 @@ s! {
         __dummy4: [::c_char; 24],
         #[cfg(target_pointer_width = "64")]
         __dummy4: [::c_char; 16],
-    }
-
-    pub struct sigaction {
-        pub sa_sigaction: ::sighandler_t,
-        pub sa_mask: ::sigset_t,
-        pub sa_flags: ::c_int,
-        pub sa_restorer: ::Option<extern fn()>,
     }
 
     pub struct statvfs {
