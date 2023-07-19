@@ -929,5 +929,12 @@ cfg_if! {
                         target_arch = "arm"))] {
         mod b32;
         pub use self::b32::*;
-    } else { }
+    } else {
+        cfg_if! {
+            if #[cfg(any(target_arch = "morello+c64"))] {
+                mod b64;
+                pub use self::b64::*;
+            }
+        }
+    }
 }
