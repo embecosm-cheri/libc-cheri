@@ -123,6 +123,7 @@ cfg_if! {
 }
 
 s_no_extra_traits! {
+
     pub union sah_u_t {
         pub sah_id: ::sighandler_t,
         pub sah_fn: unsafe extern "C" fn(::c_int),
@@ -134,10 +135,48 @@ s_no_extra_traits! {
     }
 }
 
+cfg_if! {
+    if #[cfg(feature = "extra_traits")] {
+        impl PartialEq for sah_u_t {
+            fn eq(&self, other: &sah_u_t) -> bool {
+                return false;
+            }
+        }
+        impl Eq for sah_u_t {}
+        impl ::fmt::Debug for sah_u_t {
+            fn fmt(&self, f: &mut ::fmt::Formatter) -> ::fmt::Result {
+                f.debug_struct("sah_u_t")
+                    .finish()
+            }
+        }
+        impl ::hash::Hash for sah_u_t {
+            fn hash<H: ::hash::Hasher>(&self, state: &mut H) {
+            }
+        }
+        impl PartialEq for sa_u_t {
+            fn eq(&self, other: &sa_u_t) -> bool {
+                return false;
+            }
+        }
+        impl Eq for sa_u_t {}
+        impl ::fmt::Debug for sa_u_t {
+            fn fmt(&self, f: &mut ::fmt::Formatter) -> ::fmt::Result {
+                f.debug_struct("sa_u_t")
+                    .finish()
+            }
+        }
+        impl ::hash::Hash for sa_u_t {
+            fn hash<H: ::hash::Hasher>(&self, state: &mut H) {
+            }
+        }
+    }
+}
 
 cfg_if! {
     if #[cfg(target_arch = "morello+c64")] {
         s_no_extra_traits! {
+
+            #[derive(Debug, Eq, Hash, PartialEq)]
             pub struct sigaction {
                 pub sa_u: ::sa_u_t,
                 pub sa_mask: ::sigset_t,
