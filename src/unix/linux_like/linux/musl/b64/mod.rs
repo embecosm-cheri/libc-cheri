@@ -2,6 +2,16 @@ pub type c_long = i64;
 pub type c_ulong = u64;
 pub type regoff_t = ::c_long;
 
+cfg_if! {
+    if #[cfg(target_arch = "morello+c64")] {
+        const ATTR_SIZE: usize = 8;
+        const PTR_SIZE: usize = 16;
+    } else {
+        const ATTR_SIZE: usize = 7;
+        const PTR_SIZE: usize = 8;
+    }
+}
+
 s! {
     pub struct statfs64 {
         pub f_type: ::c_ulong,
@@ -39,8 +49,9 @@ s! {
         pub ss_size: ::size_t
     }
 
+    #[repr(align(PTR_SIZE))]
     pub struct pthread_attr_t {
-        __size: [u64; 7]
+        __size: [u64; ATTR_SIZE],
     }
 
     pub struct sigset_t {
