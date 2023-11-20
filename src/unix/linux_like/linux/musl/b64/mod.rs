@@ -53,6 +53,7 @@ s! {
         pub ss_size: ::size_t
     }
 
+    #[repr(align(16))]
     pub struct pthread_attr_t {
         __size: [u64; ATTR_SIZE],
     }
