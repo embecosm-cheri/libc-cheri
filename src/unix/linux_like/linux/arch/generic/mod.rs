@@ -95,7 +95,6 @@ cfg_if! {
     if #[cfg(all(any(target_arch = "x86",
                      target_arch = "x86_64",
                      target_arch = "aarch64"),
-                     target_arch = "morello+c64",
                  not(target_env = "musl")))] {
         pub const SO_TIMESTAMP_NEW: ::c_int = 63;
         pub const SO_TIMESTAMPNS_NEW: ::c_int = 64;
