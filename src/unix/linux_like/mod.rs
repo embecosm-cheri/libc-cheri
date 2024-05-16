@@ -210,20 +210,33 @@ s! {
     }
 }
 
-s_no_extra_traits! {
-    #[cfg_attr(
-        any(
-            all(
-                target_arch = "x86",
-                not(target_env = "musl"),
-                not(target_os = "android")),
-            target_arch = "x86_64"),
-        repr(packed))]
-    pub struct epoll_event {
-        pub events: u32,
-        pub u64: u64,
+cfg_if! {
+    if #[cfg(target_arch = "morello+c64")] {
+        s_no_extra_traits! {
+            pub struct epoll_event {
+                pub events: u32,
+                pub u64: u128,
+            }
+        }
+    } else {
+        s_no_extra_traits! {
+            #[cfg_attr(
+                any(
+                    all(
+                        target_arch = "x86",
+                        not(target_env = "musl"),
+                        not(target_os = "android")),
+                    target_arch = "x86_64"),
+                repr(packed))]
+            pub struct epoll_event {
+                pub events: u32,
+                pub u64: u64,
+            }
+        }
     }
+}
 
+s_no_extra_traits! {
     pub struct sockaddr_un {
         pub sun_family: sa_family_t,
         pub sun_path: [::c_char; 108]
