@@ -206,12 +206,30 @@ s! {
     }
 }
 
+#[repr(transparent)]
+#[derive(Copy, Clone, Hash, Debug, PartialEq, Eq)]
+pub struct PtrWrapper(*const u8);
+
+impl Into<*const u8> for PtrWrapper {
+    fn into(self) -> *const u8 {
+        self.0
+    }
+}
+
+impl Into<PtrWrapper> for *const u8 {
+    fn into(self) -> PtrWrapper {
+        PtrWrapper { 0: self }
+    }
+}
+
+unsafe impl Send for PtrWrapper {}
+
 cfg_if! {
     if #[cfg(target_arch = "morello+c64")] {
         s_no_extra_traits! {
             pub struct epoll_event {
                 pub events: u32,
-                pub u64: u128,
+                pub u64: PtrWrapper,
             }
         }
     } else {
