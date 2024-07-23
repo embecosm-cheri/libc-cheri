@@ -5,7 +5,7 @@ pub type regoff_t = ::c_long;
 cfg_if! {
     if #[cfg(target_arch = "morello+c64")] {
         const ATTR_SIZE: usize = 8;
-        const PTR_SIZE: usize = 16;
+        // const PTR_SIZE: usize = 16;
     } else {
         const ATTR_SIZE: usize = 7;
         const PTR_SIZE: usize = 8;
