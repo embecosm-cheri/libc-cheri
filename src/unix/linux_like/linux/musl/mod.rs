@@ -176,7 +176,7 @@ cfg_if! {
     if #[cfg(target_arch = "morello+c64")] {
         s_no_extra_traits! {
 
-            #[derive(Debug, Eq, Hash, PartialEq)]
+            #[cfg_attr(feature = "extra_traits", derive(Debug, Eq, Hash, PartialEq))]
             pub struct sigaction {
                 pub sa_u: ::sa_u_t,
                 pub sa_mask: ::sigset_t,
