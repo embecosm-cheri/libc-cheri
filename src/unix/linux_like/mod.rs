@@ -235,6 +235,7 @@ impl crate::Into<PtrWrapper> for *const u8 {
     }
 }
 
+#[cfg(feature = "extra_traits")]
 unsafe impl Send for PtrWrapper {}
 
 cfg_if! {
