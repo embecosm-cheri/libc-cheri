@@ -6,8 +6,6 @@ pub type timer_t = *mut ::c_void;
 pub type key_t = ::c_int;
 pub type id_t = ::c_uint;
 
-use crate::{Into, Send};
-
 #[cfg_attr(feature = "extra_traits", derive(Debug))]
 pub enum timezone {}
 impl ::Copy for timezone {}
@@ -223,13 +221,15 @@ impl ::Clone for PtrWrapper {
     }
 }
 
-impl Into<*const u8> for PtrWrapper {
+#[cfg(feature = "extra_traits")]
+impl crate::Into<*const u8> for PtrWrapper {
     fn into(self) -> *const u8 {
         self.0
     }
 }
 
-impl Into<PtrWrapper> for *const u8 {
+#[cfg(feature = "extra_traits")]
+impl crate::Into<PtrWrapper> for *const u8 {
     fn into(self) -> PtrWrapper {
         PtrWrapper { 0: self }
     }
