@@ -16,6 +16,7 @@
     redundant_semicolons,
     unused_macros,
     unused_macro_rules,
+    unexpected_cfgs,
 )]
 #![cfg_attr(libc_deny_warnings, deny(warnings))]
 // Attributes needed when building as part of the standard library
@@ -64,6 +65,9 @@ cfg_if! {
         use core::marker::{Copy, Send, Sync};
         #[doc(hidden)]
         #[allow(unused_imports)]
+        use core::convert::Into;
+        #[doc(hidden)]
+        #[allow(unused_imports)]
         use core::option::Option;
     } else {
         #[doc(hidden)]
@@ -84,6 +88,9 @@ cfg_if! {
         #[doc(hidden)]
         #[allow(unused_imports)]
         pub use core::marker::{Copy, Send, Sync};
+        #[doc(hidden)]
+        #[allow(unused_imports)]
+        use core::convert::Into;
         #[doc(hidden)]
         #[allow(unused_imports)]
         pub use core::option::Option;
